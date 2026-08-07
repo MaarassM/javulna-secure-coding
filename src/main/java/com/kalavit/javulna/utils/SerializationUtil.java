@@ -53,7 +53,7 @@ public class SerializationUtil {
         }
         ObjectInputStream ist;
         try {
-            ist = new ObjectInputStream(new ByteArrayInputStream(byteArray));
+            ist = new WhitelistObjectInputStream(new ByteArrayInputStream(byteArray));
             Object obj = ist.readObject();
             return obj;
         } catch (IOException | ClassNotFoundException ex) {
