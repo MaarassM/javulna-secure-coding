@@ -44,6 +44,13 @@ public class SerializationUtil {
     }
 
     public static Object readUserFromFile(byte[] byteArray) {
+        if (byteArray==null || byteArray.length < 4){
+            throw new SecurityException("Not a serialized object, input too short");
+        }
+        if (byteArray[0] != (byte) 0xAC || byteArray[1] != (byte) 0xED
+                || byteArray[2] != 0x00 || byteArray[3] != 0x05) {
+            throw new SecurityException("Not a serialized Java object: invalid magic bytes");
+        }
         ObjectInputStream ist;
         try {
             ist = new ObjectInputStream(new ByteArrayInputStream(byteArray));
