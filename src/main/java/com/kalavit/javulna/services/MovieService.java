@@ -127,7 +127,9 @@ public class MovieService {
     public Movie saveMovieFromXml(String xml) {
         try {
             Movie m = new Movie();
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new ByteArrayInputStream(xml.getBytes("UTF-8")));
             Element root = doc.getDocumentElement();
             m.setTitle(getText(root, "title"));

@@ -34,6 +34,7 @@ public class RemotePasswordChangeService {
     public boolean changePassword(String psChangeXml) {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(new StringReader(psChangeXml)));
             String userName = doc.getElementsByTagName("userName").item(0).getFirstChild().getNodeValue();
