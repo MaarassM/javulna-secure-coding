@@ -56,6 +56,7 @@ public class UserService {
     public UserDto createUser(UserDto ud) {
         ud.setId(null);
         User user = beanMapper.map(ud, User.class, "userMapNoNull");
+        user.setPassword(encoder.encode(user.getPassword()));
         User saved = uDao.saveAndFlush(user);
         UserDto ret = beanMapper.map(saved, UserDto.class, "userMapFull");
         ret.setPassword(null);

@@ -82,8 +82,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutSuccessHandler(logouthandler)
                 .and().cors()
                 .and().authorizeRequests()
+                .antMatchers("/error").permitAll()
                 .antMatchers(HttpMethod.GET, "/rest/movie/**", "/movies", "/", "/webjars/**", "/js/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/rest/user/**").permitAll()
                 .antMatchers("/addMovie").permitAll()
                 .anyRequest().authenticated();
     }
