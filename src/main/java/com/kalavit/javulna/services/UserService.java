@@ -77,7 +77,7 @@ public class UserService {
     public boolean changePassword(String name, String oldPassword, String newPassword) {
         User u = uDao.findUserByName(name);
         if (u != null) {
-            if (u.getPassword().equals(oldPassword)) {
+            if (encoder.matches(oldPassword, u.getPassword())) {
                 String pwdChangeXml = createXml(name, newPassword);
                 return passwordChangeService.changePassword(pwdChangeXml);
             }
@@ -90,8 +90,7 @@ public class UserService {
             String xmlString = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("xml/PasswordChange.xml"), "UTF-8");
             xmlString = xmlString.replaceAll("PWD_TO_REPLACE", newPassword);
             xmlString = xmlString.replaceAll("USERNAME_TO_REPLACE", name);
-            LOG.debug("xml string created: {}", xmlString);
-            return xmlString;
+            LOG.debug("password change xml created for user: {}", name);            return xmlString;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

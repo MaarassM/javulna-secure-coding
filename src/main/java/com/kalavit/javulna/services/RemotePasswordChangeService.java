@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.kalavit.javulna.services;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.kalavit.javulna.model.User;
 import com.kalavit.javulna.services.autodao.UserAutoDao;
 import java.io.StringReader;
@@ -29,20 +29,23 @@ public class RemotePasswordChangeService {
     
     @Autowired
     private UserAutoDao uDao;
+
+    @Autowired
+    private PasswordEncoder encoder;
     
     @Transactional
     public boolean changePassword(String psChangeXml) {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(new StringReader(psChangeXml)));
             String userName = doc.getElementsByTagName("userName").item(0).getFirstChild().getNodeValue();
             String pwd = doc.getElementsByTagName("pwd").item(0).getFirstChild().getNodeValue();
-            LOG.debug("Will change the password of user: {} to {}", userName, pwd);
             User u = uDao.findUserByName(userName);
             if (u != null) {
-                u.setPassword(pwd);
+                u.setPassword(encoder.encode(pwd));
                 return true;
             }
             return false;
