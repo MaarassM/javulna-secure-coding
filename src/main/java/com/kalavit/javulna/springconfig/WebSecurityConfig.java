@@ -1,6 +1,6 @@
 package com.kalavit.javulna.springconfig;
+import com.kalavit.javulna.security.JwtAuthFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -40,6 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -81,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .frameOptions().deny()
                     .contentSecurityPolicy("default-src 'self'").and()
                     .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN).and()
-                .and()
+                .and().csrf().disable()
                 .formLogin()
                 .usernameParameter("username")
                 .successHandler(successHandler)
@@ -97,7 +102,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/error").permitAll()
                 .antMatchers(HttpMethod.GET, "/rest/movie/**", "/movies", "/", "/webjars/**", "/js/**").permitAll()
                 .antMatchers("/addMovie").permitAll()
+                .antMatchers("/rest/auth/**").permitAll()
                 .anyRequest().authenticated();
+                http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -105,5 +112,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 
 }
