@@ -61,8 +61,8 @@ public class LdapService {
 
             SearchResult sr = (SearchResult) answer.next();
             Attributes attrs = sr.getAttributes();
-            if (attrs != null) {
-
+            if (attrs == null) {
+                return ret;
             }
             ret.setCommonName(getAttr(attrs, "cn"));
             ret.setObjectClass(getAttr(attrs, "objectclass"));
