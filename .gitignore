@@ -3,3 +3,9 @@ nbactions.xml
 
 .postman/
 postman/
+
+c.txt
+cookies.txt
+dependency-reduced-pom.xml
+.idea/
+target/
