@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .frameOptions().deny()
                     .contentSecurityPolicy("default-src 'self'").and()
                     .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN).and()
-                .and().csrf().disable()
+                .and().csrf().ignoringAntMatchers("/rest/**").and()
                 .formLogin()
                 .usernameParameter("username")
                 .successHandler(successHandler)
@@ -97,7 +97,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                         new AntPathRequestMatcher("/rest/**")
                 )
-                .and().authorizeRequests()
                 .and().authorizeRequests()
                 .antMatchers("/error").permitAll()
                 .antMatchers(HttpMethod.GET, "/rest/movie/**", "/movies", "/", "/webjars/**", "/js/**").permitAll()
