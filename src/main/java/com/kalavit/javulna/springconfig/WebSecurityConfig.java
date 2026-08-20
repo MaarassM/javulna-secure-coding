@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .headers()
                     .frameOptions().deny()
-                    .contentSecurityPolicy("default-src 'self'").and()
+                    .contentSecurityPolicy("default-src 'self'; frame-ancestors 'none'; form-action 'self'").and()
                     .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN).and()
                 .and().csrf().ignoringAntMatchers("/rest/**").and()
                 .formLogin()
