@@ -113,6 +113,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -166,6 +171,8 @@
                     <excludes>
                         <exclude>com/kalavit/javulna/Application.class</exclude>
                         <exclude>com/kalavit/javulna/dto/**</exclude>
+                        <exclude>com/kalavit/javulna/services/LdapService.class</exclude>
+                        <exclude>com/kalavit/javulna/utils/FileUtil.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -179,6 +186,17 @@
                         <goals><goal>report</goal></goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+
             </plugin>
         </plugins>
     </build>

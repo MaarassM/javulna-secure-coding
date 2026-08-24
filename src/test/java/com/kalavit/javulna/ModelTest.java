@@ -145,6 +145,53 @@ public class ModelTest {
         c.setName("Drugi");
         assertFalse(a.equals(c));
 
+        User d = new User();
+        d.setName("Test User");
+        d.setSex("Female");
+        d.setPassword("password");
+        d.setEmailAddress("test@gmail.com");
+        d.setMotto("motto");
+        d.setWebPageUrl("webpageurl");
+        assertFalse(a.equals(d));
+
+        User e = new User();
+        e.setName("Test User");
+        e.setSex("Male");
+        e.setPassword("drugaLozinka");
+        e.setEmailAddress("test@gmail.com");
+        e.setMotto("motto");
+        e.setWebPageUrl("webpageurl");
+        assertFalse(a.equals(e));
+
+        User f = new User();
+        f.setName("Test User");
+        f.setSex("Male");
+        f.setPassword("password");
+        f.setEmailAddress("drugi@gmail.com");
+        f.setMotto("motto");
+        f.setWebPageUrl("webpageurl");
+        assertFalse(a.equals(f));
+
+        User g = new User();
+        g.setName("Test User");
+        g.setSex("Male");
+        g.setPassword("password");
+        g.setEmailAddress("test@gmail.com");
+        g.setMotto("drugi motto");
+        g.setWebPageUrl("webpageurl");
+        assertFalse(a.equals(g));
+
+        User h = new User();
+        h.setName("Test User");
+        h.setSex("Male");
+        h.setPassword("password");
+        h.setEmailAddress("test@gmail.com");
+        h.setMotto("motto");
+        h.setWebPageUrl("drugi-url");
+        assertFalse(a.equals(h));
+
         assertEquals(a.hashCode(), b.hashCode());
     }
+
+
 }
